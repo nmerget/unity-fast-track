@@ -6,8 +6,6 @@ It provides a good starting point and some explanations how to manage some basic
 
 Feel free to clone the repo and test it with Unity.
 
----
-
 ## Core Concepts
 
 ### Singletons
@@ -23,8 +21,6 @@ Why should I want to do this?
 
 -> TODO
 
----
-
 ## Dependencies
 
 1. [TextMesh Pro](https://docs.unity3d.com/Manual/com.unity.textmeshpro.html): Obvious pick for better text ui 📃
@@ -35,37 +31,60 @@ Why should I want to do this?
 4. [LeanTween](https://assetstore.unity.com/packages/tools/animation/leantween-3595): Simple tweening library for ui
    animations ⬆🏃‍♂️
 
----
-
 ## Structure
 
-### Editor
+<details>
+  <summary><strong>Editor</strong></summary>
 
 Some scripts which should run in the unity editor in the background:
 
 - DependencyCheck: Will look for all required dependencies
 - EventHandlerGenerator: Will generate a controller to trigger events from game objects
 
-### Localization
+</details>
+
+<details>
+  <summary><strong>Localization</strong></summary>
 
 All assets and strings which should be translated.
 
-### Plugins
+</details>
+
+<details>
+  <summary><strong>Plugins</strong></summary>
 
 All Dependencies should be moved into this to separate them from your code.
 
-### Prefabs
+</details>
+
+<details>
+  <summary><strong>Prefabs</strong></summary>
 
 Predefined game objects to bundle or reuse.
 
-### Resources
+</details>
+
+<details>
+  <summary><strong>Resources</strong></summary>
 
 All files like materials, images, music etc.
 
-### Scenes
+</details>
+
+<details>
+  <summary><strong>Scenes</strong></summary>
 
 All your scenes for your game.
 
-### Scripts
+</details>
+
+<details>
+  <summary><strong>Scripts</strong></summary>
 
 All code you write.
+
+</details>
+
+## Details
+
+-> TODO

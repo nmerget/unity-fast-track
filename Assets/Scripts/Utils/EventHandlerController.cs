@@ -3,14 +3,16 @@
 */
 
 using UnityEngine;
+namespace Utils
+{
 
 public class EventHandlerController : MonoBehaviour
 {
-public void InvokeOnToogleDialogContainer(){
-EventHandler.onToogleDialogContainer?.Invoke();
+public void InvokeOnToggleDialogContainer(){
+EventHandler.onToggleDialogContainer?.Invoke();
 }
-public void InvokeOnForgroundVisible(){
-EventHandler.onForgroundVisible?.Invoke();
+public void InvokeOnForegroundVisible(){
+EventHandler.onForegroundVisible?.Invoke();
 }
 public void InvokeOnPlayClick(){
 EventHandler.onPlayClick?.Invoke();
@@ -44,5 +46,6 @@ EventHandler.onPlayerLogin?.Invoke();
 }
 public void InvokeOnNewPlayer(){
 EventHandler.onNewPlayer?.Invoke();
+}
 }
 }

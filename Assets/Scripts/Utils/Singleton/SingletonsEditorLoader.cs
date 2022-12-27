@@ -1,24 +1,32 @@
 ﻿using UnityEngine;
 
-public class SingletonsEditorLoader : MonoBehaviour {
-    public SingletonsLoader singletons;
-    public GameObject elementToEnable;
+namespace Utils.Singleton
+{
+    public class SingletonsEditorLoader : MonoBehaviour
+    {
+        public SingletonsLoader singletons;
+        public GameObject elementToEnable;
 
-    private bool loaded = false;
+        private bool loaded;
 
-    void Awake () {
-        if (SingletonsLoader.instance == null || !SingletonsLoader.instance.IsCompletlyLoaded ()) {
-            this.elementToEnable.SetActive (false);
-            this.singletons.LoadAll ();
-        } else {
-            this.elementToEnable.SetActive (true);
+        private void Awake()
+        {
+            if (SingletonsLoader.instance == null || !SingletonsLoader.instance.IsCompletelyLoaded())
+            {
+                elementToEnable.SetActive(false);
+                singletons.LoadAll();
+            }
+            else
+            {
+                elementToEnable.SetActive(true);
+            }
         }
-    }
 
-    private void Update () {
-        if (singletons != null && singletons.IsCompletlyLoaded () && !this.loaded) {
-            this.loaded = true;
-            this.elementToEnable.SetActive (true);
+        private void Update()
+        {
+            if (!singletons || !singletons.IsCompletelyLoaded() || loaded) return;
+            loaded = true;
+            elementToEnable.SetActive(true);
         }
     }
 }

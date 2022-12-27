@@ -1,53 +1,74 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using Utils.Singleton;
 
-public class SoundManager : Singleton<SoundManager> {
-    public static string MUSIC_OPTION = "MUSIC_OPTION";
-    public static string SOUND_FX_OPTION = "SOUND_FX_OPTION";
-    private List<AudioClip> allClips;
+namespace Utils.Sound
+{
+    public class SoundManager : Singleton<SoundManager>
+    {
+        private const string MusicOption = "MUSIC_OPTION";
+        private const string SoundFXOption = "SOUND_FX_OPTION";
 
-    public List<AudioClip> allMusicClips;
-    public List<AudioClip> allSoundFXClips;
+        public List<AudioClip> allMusicClips;
+        public List<AudioClip> allSoundFXClips;
 
-    public AudioSource musicAudioSource;
+        public AudioSource musicAudioSource;
 
-    public AudioMixer masterAudioMixer;
+        public AudioMixer masterAudioMixer;
+        private List<AudioClip> allClips;
 
-    private int loadedAudioClips = 0;
+        private int loadedAudioClips;
 
-    private void Awake () {
-        this.allMusicClips = new List<AudioClip> (this.allMusicClips);
-        this.allMusicClips.AddRange (this.allSoundFXClips);
-    }
+        private void Awake()
+        {
+            allMusicClips = new List<AudioClip>(allMusicClips);
+            allMusicClips.AddRange(allSoundFXClips);
+        }
 
-    protected override void OnLoadSync () { }
+        protected override void OnLoadSync()
+        {
+        }
 
-    protected override bool IsAsync () => true;
+        protected override bool IsAsync()
+        {
+            return true;
+        }
 
-    override public void LoadOnUpdateIntervall () {
-        if (this.loadedAudioClips != this.allMusicClips.Count) {
-            this.allMusicClips[this.loadedAudioClips].LoadAudioData ();
-            this.loadedAudioClips++;
-        } else {
-            isReady = true;
+        public override void LoadOnUpdateInterval()
+        {
+            if (loadedAudioClips != allMusicClips.Count)
+            {
+                allMusicClips[loadedAudioClips].LoadAudioData();
+                loadedAudioClips++;
+            }
+            else
+            {
+                isReady = true;
+            }
+        }
+
+        public void ChangeSoundFx(float value)
+        {
+            masterAudioMixer.SetFloat("soundFxVolume", value);
+            PlayerPrefs.SetFloat(SoundFXOption, value);
+        }
+
+        public void ChangeMusic(float value)
+        {
+            masterAudioMixer.SetFloat("musicVolume", value);
+            PlayerPrefs.SetFloat(MusicOption, value);
+        }
+
+        public void PlayMusic(int musicIndex)
+        {
+            musicAudioSource.clip = allMusicClips[musicIndex];
+            musicAudioSource.Play();
+        }
+
+        public void PauseMusic()
+        {
+            musicAudioSource.Pause();
         }
     }
-
-    public void ChangeSoundFx (float value) {
-        this.masterAudioMixer.SetFloat ("soundFxVolume", value);
-        PlayerPrefs.SetFloat (SoundManager.SOUND_FX_OPTION, value);
-    }
-
-    public void ChangeMusic (float value) {
-        this.masterAudioMixer.SetFloat ("musicVolume", value);
-        PlayerPrefs.SetFloat (SoundManager.MUSIC_OPTION, value);
-    }
-    public void PlayMusic (int musicIndex) {
-        this.musicAudioSource.clip = allMusicClips[musicIndex];
-        this.musicAudioSource.Play ();
-    }
-
-    public void PauseMusic () => this.musicAudioSource.Pause ();
-
 }

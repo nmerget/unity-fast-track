@@ -2,49 +2,64 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Utils.Singleton;
 
-public class LoadingScreenController : MonoBehaviour {
-    public Slider progress;
-    public GameObject foreground;
-    private float currentProgress = 0;
-    private AsyncOperation asyncLoadedMainMenu;
-    private bool startScreenTrigger;
-    private void Start () {
-        this.UpdateProgress ();
-        SingletonsLoader.instance.LoadAll ();
-    }
+namespace Scenes.LoadingScene
+{
+    public class LoadingScreenController : MonoBehaviour
+    {
+        public Slider progress;
+        public GameObject foreground;
+        private AsyncOperation asyncLoadedMainMenu;
+        private float currentProgress;
+        private bool startScreenTrigger;
 
-    private void Update () {
-        if (this.currentProgress != SingletonsLoader.instance.GetLoadingProgress ()) {
-            this.UpdateProgress ();
-        } else if (SingletonsLoader.instance.IsCompletlyLoaded () && !this.startScreenTrigger) {
-            this.startScreenTrigger = true;
-            StartMenuScene ();
+        private void Start()
+        {
+            UpdateProgress();
+            SingletonsLoader.instance.LoadAll();
         }
-    }
 
-    private void UpdateProgress () {
-        this.currentProgress = SingletonsLoader.instance.GetLoadingProgress ();
-        this.progress.value = this.currentProgress;
-    }
+        private void Update()
+        {
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
+            if (currentProgress != SingletonsLoader.instance.GetLoadingProgress())
+            {
+                UpdateProgress();
+            }
+            else if (SingletonsLoader.instance.IsCompletelyLoaded() && !startScreenTrigger)
+            {
+                startScreenTrigger = true;
+                StartMenuScene();
+            }
+        }
 
-    private async void StartMenuScene () {
-        this.LoadMainMenuAsync ();
-        await this.AnimateScreenTransition ();
-        this.asyncLoadedMainMenu.allowSceneActivation = true;
-    }
-    private void LoadMainMenuAsync () {
-        this.asyncLoadedMainMenu = SceneManager.LoadSceneAsync (Scenes.MAIN_MENU);
-        this.asyncLoadedMainMenu.allowSceneActivation = false;
-    }
-    private async Task<bool> AnimateScreenTransition () {
-        bool animationComplete = false;
-        LeanTween.scale (this.foreground, new Vector3 (0, 0, 0), 0.5f)
-            .setEaseInExpo ()
-            .setOnComplete (() => {
-                animationComplete = true;
-            });
-        await new WaitUntil (() => animationComplete);
-        return true;
+        private void UpdateProgress()
+        {
+            currentProgress = SingletonsLoader.instance.GetLoadingProgress();
+            progress.value = currentProgress;
+        }
+
+        private async void StartMenuScene()
+        {
+            LoadMainMenuAsync();
+            await AnimateScreenTransition();
+            asyncLoadedMainMenu.allowSceneActivation = true;
+        }
+
+        private void LoadMainMenuAsync()
+        {
+            asyncLoadedMainMenu = SceneManager.LoadSceneAsync(Constants.Scenes.MainMenu);
+            asyncLoadedMainMenu.allowSceneActivation = false;
+        }
+
+        private async Task AnimateScreenTransition()
+        {
+            var animationComplete = false;
+            LeanTween.scale(foreground, new Vector3(0, 0, 0), 0.5f)
+                .setEaseInExpo()
+                .setOnComplete(() => { animationComplete = true; });
+            await new WaitUntil(() => animationComplete);
+        }
     }
 }

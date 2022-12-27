@@ -1,10 +1,22 @@
-﻿public class DebugManager : Singleton<DebugManager> {
+﻿using Utils.Singleton;
 
-    public bool debug;
+namespace Utils
+{
+    public class DebugManager : Singleton<DebugManager>
+    {
+        public bool debug;
 
-    public override void LoadOnUpdateIntervall () { }
+        public override void LoadOnUpdateInterval()
+        {
+        }
 
-    protected override bool IsAsync () => false;
+        protected override bool IsAsync()
+        {
+            return false;
+        }
 
-    protected override void OnLoadSync () { }
+        protected override void OnLoadSync()
+        {
+        }
+    }
 }

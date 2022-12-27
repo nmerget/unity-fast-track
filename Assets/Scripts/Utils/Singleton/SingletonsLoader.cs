@@ -1,106 +1,135 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Utils.Player;
+using Utils.Sound;
 
-public class SingletonsLoader : MonoBehaviour {
-    public static SingletonsLoader instance;
+namespace Utils.Singleton
+{
+    public class SingletonsLoader : MonoBehaviour
+    {
+        public static SingletonsLoader instance;
 
-    #region Private 
-    private List<ISingleton> singletons = new List<ISingleton> ();
-    private bool completlyLoaded = false;
-    private bool loadTriggered = false;
-    private int loadedDependecies = 0;
+        #region Private
 
-    private void Awake () {
-        if (instance == null) {
-            // Init this as Singleton
-            instance = this;
+        private readonly List<ISingleton> singletons = new();
+        private bool completelyLoaded;
+        private bool loadTriggered;
+        private int loadedDependencies;
+
+        private void Awake()
+        {
+            if (instance == null)
+            {
+                // Init this as Singleton
+                instance = this;
 
 #if UNITY_ANDROID || UNITY_IOS || UNITY_EDITOR
-            this.AddMobileDependencies ();
+                AddMobileDependencies();
 #endif
 
-            this.AddDefaultDependencies ();
+                AddDefaultDependencies();
+            }
+            else if (instance != this)
+            {
+                Destroy(gameObject);
+            }
 
-        } else if (instance != this) {
-            Destroy (this.gameObject);
+            DontDestroyOnLoad(gameObject);
         }
-        DontDestroyOnLoad (this.gameObject);
-    }
 
-    private void Update () {
-        if (this.loadTriggered && !this.completlyLoaded) {
-            this.LoadModule ();
+        private void Update()
+        {
+            if (loadTriggered && !completelyLoaded)
+                // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
+                LoadModule();
         }
-    }
-    private void LoadModule () {
-        if (this.loadedDependecies == this.singletons.Count) {
-            this.completlyLoaded = true;
-            this.onLoadingComplete?.Invoke ();
-        } else {
-            ISingleton singleton = this.singletons[this.loadedDependecies];
-            if (singleton.IsReady ()) {
-                this.loadedDependecies++;
-                this.onDependencyLoaded?.Invoke (this.loadedDependecies);
-            } else {
-                if (singleton.LoadingStarted () == false) {
-                    singleton.Load ();
-                } else {
-                    singleton.LoadOnUpdateIntervall ();
+
+        private void LoadModule()
+        {
+            if (loadedDependencies == singletons.Count)
+            {
+                completelyLoaded = true;
+                onLoadingComplete?.Invoke();
+            }
+            else
+            {
+                var singleton = singletons[loadedDependencies];
+                if (singleton.IsReady())
+                {
+                    loadedDependencies++;
+                    onDependencyLoaded?.Invoke(loadedDependencies);
+                }
+                else
+                {
+                    if (singleton.LoadingStarted() == false)
+                        // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
+                        singleton.Load();
+                    else
+                        singleton.LoadOnUpdateInterval();
                 }
             }
         }
-    }
 
-    #endregion
+        #endregion
 
-    #region  Public 
+        #region Public
 
-    public Action onLoadingComplete;
-    public Action<int> onDependencyLoaded;
+        private Action onLoadingComplete;
+        private Action<int> onDependencyLoaded;
 
-    /**
+        /**
         Call this to start Loading all Singletons
      */
-    public void LoadAll () {
-        if (!this.loadTriggered) {
-            this.loadTriggered = true;
+        public void LoadAll()
+        {
+            if (!loadTriggered) loadTriggered = true;
         }
+
+        public float GetLoadingProgress()
+        {
+            // ReSharper disable once PossibleLossOfFraction
+            return loadedDependencies / singletons.Count;
+        }
+
+        public int GetAllDependenciesCount()
+        {
+            return singletons.Count;
+        }
+
+        public int GetLoadedDependenciesCount()
+        {
+            return loadedDependencies;
+        }
+
+        public bool IsCompletelyLoaded()
+        {
+            return completelyLoaded;
+        }
+
+        #endregion
+
+        #region Dependencies
+
+        public DebugManager debugManager;
+        public SoundManager soundManager;
+
+        public PlayerManager playerManager;
+
+        private static void AddMobileDependencies()
+        {
+        }
+
+        private void AddDefaultDependencies()
+        {
+            singletons.AddRange(new List<ISingleton>
+            {
+                debugManager,
+                soundManager,
+                playerManager
+            });
+        }
+
+        #endregion
     }
-
-    public float GetLoadingProgress () {
-        return this.loadedDependecies / this.singletons.Count;
-    }
-
-    public int GetAllDependenciesCount () {
-        return this.singletons.Count;
-    }
-    public int GetLoadedDependenciesCount () {
-        return this.loadedDependecies;
-    }
-
-    public bool IsCompletlyLoaded () {
-        return this.completlyLoaded;
-    }
-
-    #endregion
-
-    #region Dependencies
-
-    public DebugManager debugManager;
-    public SoundManager soundManager;
-
-    public PlayerManager playerManager;
-
-    private void AddMobileDependencies () { }
-    private void AddDefaultDependencies () {
-        this.singletons.AddRange (new List<ISingleton> {
-            this.debugManager,
-            this.soundManager,
-            this.playerManager
-        });
-    }
-
-    #endregion
-
 }

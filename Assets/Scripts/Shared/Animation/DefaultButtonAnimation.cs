@@ -1,28 +1,35 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DefaultButtonAnimation : MonoBehaviour, IPointerUpHandler, IPointerDownHandler {
+namespace Shared.Animation
+{
+    public class DefaultButtonAnimation : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
+    {
+        private const float ScaleFactor = 0.98f;
 
-    private Vector3 normalScale;
-    private Vector3 downScale;
-    private float scaleFactor = 0.98f;
+        private const float ScaleTime = 0.2f;
+        private Vector3 downScale;
 
-    private float scaleTime = 0.2f;
+        private Vector3 normalScale;
 
-    private void Awake () {
-        this.normalScale = this.gameObject.transform.localScale;
-        this.downScale = new Vector3 (
-            this.normalScale.x * this.scaleFactor,
-            this.normalScale.x * this.scaleFactor,
-            this.normalScale.x * this.scaleFactor
-        );
-    }
+        private void Awake()
+        {
+            normalScale = gameObject.transform.localScale;
+            downScale = new Vector3(
+                normalScale.x * ScaleFactor,
+                normalScale.x * ScaleFactor,
+                normalScale.x * ScaleFactor
+            );
+        }
 
-    public void OnPointerDown (PointerEventData eventData) {
-        LeanTween.scale (this.gameObject, downScale, this.scaleTime);
-    }
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            LeanTween.scale(gameObject, downScale, ScaleTime);
+        }
 
-    public void OnPointerUp (PointerEventData eventData) {
-        LeanTween.scale (this.gameObject, normalScale, this.scaleTime);
+        public void OnPointerUp(PointerEventData eventData)
+        {
+            LeanTween.scale(gameObject, normalScale, ScaleTime);
+        }
     }
 }

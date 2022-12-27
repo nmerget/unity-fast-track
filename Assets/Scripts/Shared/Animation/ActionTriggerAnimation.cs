@@ -2,50 +2,56 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class ActionTriggerAnimation : MonoBehaviour {
+namespace Shared.Animation
+{
+    public class ActionTriggerAnimation : MonoBehaviour
+    {
+        public GameObject childContainer;
+        public float openAnimationTime = 0.25f;
 
-    public GameObject childContainer;
-    public float openAnimationTime = 0.25f;
+        private bool isOpen;
 
-    private RectTransform rectTransform;
+        private RectTransform rectTransform;
 
-    private bool isOpen;
-
-    private void Awake () {
-        this.rectTransform = this.GetComponent<RectTransform> ();
-        if (this.rectTransform == null) {
-            Debug.LogErrorFormat ("ToogleOverlay, RectTransform is null");
-        } else {
-            LeanTween.scale (this.gameObject, Vector3.zero, 0);
-            this.childContainer.SetActive (true);
-        }
-    }
-
-    public bool IsOpen () {
-        return this.isOpen;
-    }
-
-    public async Task<bool> Toogle (bool open = true) {
-        bool animationDone = false;
-        this.isOpen = open;
-
-        if (open) {
-            Vector2 mousePosition = Mouse.current.position.ReadValue ();
-            float pivotX = mousePosition.x / Screen.width;
-            float pivotY = mousePosition.y / Screen.height;
-            rectTransform.pivot = new Vector2 (pivotX, pivotY);
+        private void Awake()
+        {
+            rectTransform = GetComponent<RectTransform>();
+            if (rectTransform == null)
+            {
+                Debug.LogErrorFormat("ActionTriggerAnimation, RectTransform is null");
+            }
+            else
+            {
+                LeanTween.scale(gameObject, Vector3.zero, 0);
+                childContainer.SetActive(true);
+            }
         }
 
-        LeanTween.scale (
-                this.gameObject,
-                open ? Vector3.one : Vector3.zero, this.openAnimationTime
-            )
-            .setEaseInOutExpo ()
-            .setOnComplete (() => {
-                animationDone = true;
-            });
-        await new WaitUntil (() => animationDone);
-        return true;
-    }
+        public bool IsOpen()
+        {
+            return isOpen;
+        }
 
+        public async Task Toggle(bool open = true)
+        {
+            var animationDone = false;
+            isOpen = open;
+
+            if (open)
+            {
+                var mousePosition = Mouse.current.position.ReadValue();
+                var pivotX = mousePosition.x / Screen.width;
+                var pivotY = mousePosition.y / Screen.height;
+                rectTransform.pivot = new Vector2(pivotX, pivotY);
+            }
+
+            LeanTween.scale(
+                    gameObject,
+                    open ? Vector3.one : Vector3.zero, openAnimationTime
+                )
+                .setEaseInOutExpo()
+                .setOnComplete(() => { animationDone = true; });
+            await new WaitUntil(() => animationDone);
+        }
+    }
 }

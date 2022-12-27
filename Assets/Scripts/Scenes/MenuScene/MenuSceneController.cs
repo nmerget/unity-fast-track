@@ -1,67 +1,72 @@
-﻿using UnityEngine;
+﻿using Shared.Animation;
+using UnityEngine;
 using UnityEngine.SceneManagement;
+using Utils;
 
-public class MenuSceneController : MonoBehaviour {
+namespace Scenes.MenuScene
+{
+    public class MenuSceneController : MonoBehaviour
+    {
+        public CanvasGroup[] foregroundObjects;
+        public ActionTriggerAnimation itemsContainer;
+        public ActionTriggerAnimation settingsContainer;
 
-    public CanvasGroup[] foregroundObjects;
-    public ActionTriggerAnimation itemsContainer;
-    public ActionTriggerAnimation settingsContainer;
+        private void Awake()
+        {
+            foreach (var foregroundObj in foregroundObjects) foregroundObj.alpha = 0;
+        }
 
-    private void Awake () {
-        foreach (CanvasGroup foregroundObj in this.foregroundObjects) {
-            foregroundObj.alpha = 0;
+        private void Start()
+        {
+            LeanTween.value(gameObject, 0, 1, 1f)
+                .setEaseInExpo()
+                .setOnUpdate(val =>
+                {
+                    foreach (var foregroundObj in foregroundObjects) foregroundObj.alpha = val;
+                })
+                .setOnComplete(TriggerOnForegroundVisible);
+        }
+
+        private void OnEnable()
+        {
+            EventHandler.onPlayClick += StartPlay;
+            EventHandler.onToggleSettings += ToggleSettings;
+            EventHandler.onToggleItemsContainer += ToggleItems;
+        }
+
+        private void OnDisable()
+        {
+            EventHandler.onPlayClick -= StartPlay;
+            EventHandler.onToggleSettings -= ToggleSettings;
+            EventHandler.onToggleItemsContainer -= ToggleItems;
+        }
+
+        private static async void TriggerOnForegroundVisible()
+        {
+            await new WaitForSeconds(0.5f);
+            EventHandler.onForegroundVisible?.Invoke();
+        }
+
+        private static void StartPlay()
+        {
+            SceneManager.LoadScene(Constants.Scenes.Play);
+        }
+
+        private async void ToggleItems()
+        {
+            if (itemsContainer.IsOpen())
+                await itemsContainer.Toggle(false);
+            else
+                await itemsContainer.Toggle();
+        }
+
+        private async void ToggleSettings()
+        {
+            EventHandler.onToggleDialogContainer?.Invoke();
+            if (settingsContainer.IsOpen())
+                await settingsContainer.Toggle(false);
+            else
+                await settingsContainer.Toggle();
         }
     }
-
-    private void Start () {
-        LeanTween.value (this.gameObject, 0, 1, 1f)
-            .setEaseInExpo ()
-            .setOnUpdate ((float val) => {
-                foreach (CanvasGroup foregroundObj in this.foregroundObjects) {
-                    foregroundObj.alpha = val;
-                }
-            })
-            .setOnComplete (() => {
-                this.TriggerOnForegroundVisible ();
-            });
-    }
-
-    private async void TriggerOnForegroundVisible () {
-        await new WaitForSeconds (0.5f);
-        EventHandler.onForgroundVisible?.Invoke ();
-    }
-
-    private void OnEnable () {
-        EventHandler.onPlayClick += this.StartPlay;
-        EventHandler.onToggleSettings += this.ToogleSettings;
-        EventHandler.onToggleItemsContainer += this.ToogleItems;
-    }
-
-    private void OnDisable () {
-        EventHandler.onPlayClick -= this.StartPlay;
-        EventHandler.onToggleSettings -= this.ToogleSettings;
-        EventHandler.onToggleItemsContainer -= this.ToogleItems;
-    }
-
-    private void StartPlay () {
-        SceneManager.LoadScene (Scenes.PLAY);
-    }
-
-    private async void ToogleItems () {
-        if (this.itemsContainer.IsOpen ()) {
-            await this.itemsContainer.Toogle (false);
-        } else {
-            await this.itemsContainer.Toogle ();
-        }
-    }
-
-    private async void ToogleSettings () {
-        EventHandler.onToogleDialogContainer?.Invoke ();
-        if (this.settingsContainer.IsOpen ()) {
-            await this.settingsContainer.Toogle (false);
-        } else {
-            await this.settingsContainer.Toogle ();
-        }
-    }
-
 }

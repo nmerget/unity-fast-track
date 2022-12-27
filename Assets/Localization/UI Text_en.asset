@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: UI Text_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 8a7f468cbfc02fb4b8a9f758694b7f4d, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 4507504209920
+    m_Localized: 'Optional: Your Logo'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3971396661248
+    m_Localized: Use this text to show hints during loading
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9331947859968
+    m_Localized: "Settings\n etc."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9692242767872
+    m_Localized: Exp / Collectable Container
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9809742000128
+    m_Localized: Currency here
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10274957422592
+    m_Localized: 'PLAY
+
+      - Main Button Right -
+
+      (for main actions like
+      play)'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10420529131520
+    m_Localized: 'Secondary Button Right
+
+      (for actions like chaning game mode)'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10650393767936
+    m_Localized: 'ITEMS
+
+      - Main Button Left -
+
+      (for main actions like
+      shop/ items etc.)'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10845609259008
+    m_Localized: 'Secondary Button Left
+
+      (for actions like leaderboard/friends)'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11063100698624
+    m_Localized: 'EVENTS
+
+      - Main Button Middle -'
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: UI Text Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: UI Text
+  m_TableCollectionNameGuidString: 8a7f468cbfc02fb4b8a9f758694b7f4d
+  m_Entries:
+  - m_Id: 3971396661248
+    m_Key: LoadingScene/UICanvas/Foreground/Otional:HintText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4507504209920
+    m_Key: LoadingScene/UICanvas/Foreground/Optional:Logo/Text (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9331947859968
+    m_Key: MenuScene/DynamicCanvas/Foreground/OKToTouchContainer/SettingsButton/Text
+      (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9692242767872
+    m_Key: MenuScene/DynamicCanvas/Foreground/HardToTouchContainer(NonActiveElements)/ExpContainer/Text
+      (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9809742000128
+    m_Key: MenuScene/DynamicCanvas/CurrencyCanvas/CurrencyContainer/Currency
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10274957422592
+    m_Key: MenuScene/DynamicCanvas/Foreground/EasyToTouchContainer/MainButtonRight/Text
+      (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10420529131520
+    m_Key: MenuScene/DynamicCanvas/Foreground/EasyToTouchContainer/SecondaryButtonRight/Text
+      (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10650393767936
+    m_Key: MenuScene/DynamicCanvas/Foreground/EasyToTouchContainer/MainButtonLeft/Text
+      (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10845609259008
+    m_Key: MenuScene/DynamicCanvas/Foreground/EasyToTouchContainer/SecondaryButtonLeft/Text
+      (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11063100698624
+    m_Key: MenuScene/DynamicCanvas/Foreground/EasyToTouchContainer/MainButtonMiddle/Text
+      (TMP)
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 3440557225296527384
+  references:
+    version: 2
+    RefIds:
+    - rid: 3440557225296527384
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1672147101273

@@ -5,6 +5,7 @@ namespace Utils
     public class DebugManager : Singleton<DebugManager>
     {
         public bool debug;
+        public bool logEvents;
 
         public override void LoadOnUpdateInterval()
         {

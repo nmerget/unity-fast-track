@@ -21,7 +21,7 @@ namespace Utils.Singleton
         protected bool isReady;
         private bool loadingStarted;
 
-        private static T instance;
+        public static T instance;
 
         public void Load()
         {

@@ -63,7 +63,9 @@ namespace Editor
                     content += "param";
                 }
 
-                content += ");\n}\n";
+                content += ");\n";
+                content += "if(DebugManager.instance.debug && DebugManager.instance.logEvents) Debug.Log(\"Invoked event: " + actionOnly + "\");\n";
+                content += "}\n";
             }
 
             content += "}\n}";

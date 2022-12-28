@@ -6,20 +6,62 @@ It provides a good starting point and some explanations how to manage some basic
 
 Feel free to clone the repo and test it with Unity.
 
+Here is an example how the main menu looks like:
+
+![Example for MenuScene](docs/images/fast-track-overview.png)
+
+Why is this so ugly? It doesn't look like a game?! 😲
+
+This template is just a minimum example how a project could be managed. 
+
+See the [Details](#details) section for more information.
+
 ## Core Concepts
 
-### Singletons
+<details>
+  <summary><strong>Singletons</strong></summary>
 
--> TODO
+Use singletons for unique classes which are used by multiple scenes or other scripts.
 
-### EventHandler
+For example if you want to use and control sound you can use a singleton for this.
+Sound files can be very large for loading on a mobile device.
+The singleton provides a way to load the files in a loading screen and reuse the same class everywhere.
+For a good experience you should load most async stuff in a loading screen and not during the game.
+
+How to use it in the code?
+
+As an example look at ``Scripts/Utils/DebugManager`` or ``Scripts/Utils/Sound/SoundManager``.
+The script extends the Singleton Class, which provides the an interface for loading and providing functions and
+parameters for other classes.
+
+If you create a new Manager-Class add it to the ``Scripts/Singleton/SingletonsLoader`` and in Unity create a new Empty
+and add it to ``Prefabs/Utils/_Singletons``.
+The new Manager will be automatically loaded in the ``LoadingScene`` and you can access it everywhere
+with ``Debug.Log(DebugManager.instance.debug)``.
+
+</details>
+
+<details>
+  <summary><strong>EventHandler</strong></summary>
 
 You can find the EventHandler under  ``Scripts/Utils/EventHandler.cs``.
 Purpose of this is to bundle all possible events for the game in one file.
 
 Why should I want to do this?
 
--> TODO
+Try to separate UI and other interactions with logic!
+
+If you use Unity you come to a point where you add a lot of scripts which should handle UI and do some calculation and
+also a request to a backend.
+At the end you drag & drop scripts from one game object to another, losing the overview in the hierarchy.
+
+For a clean code just use the ``Scripts/Utils/EventHandlerController.cs`` for buttons/ interactions and invoke an event.
+
+In your scene all you have to do is to add a Controller-Script to an empty object and subscribe to the event
+in `` private void OnEnable()``.
+With this you can keep your logic in one place and you don't have to search in your hierarchy for it.
+
+</details>
 
 ## Dependencies
 
@@ -27,7 +69,7 @@ Why should I want to do this?
 2. [Localization](https://docs.unity3d.com/Packages/com.unity.localization@1.0/manual/index.html): Unity provides this
    🏳‍🌈
 3. [AsyncAwaitUtil](https://assetstore.unity.com/packages/tools/integration/async-await-support-101056): [Coroutines](https://docs.unity3d.com/Manual/Coroutines.html)
-   sucks🤮, async await is easy 🤯
+   suck🤮, async await is easy 🤯
 4. [LeanTween](https://assetstore.unity.com/packages/tools/animation/leantween-3595): Simple tweening library for ui
    animations ⬆🏃‍♂️
 
@@ -87,4 +129,51 @@ All code you write.
 
 ## Details
 
+### UX
+
+A lot of suggestions here are for mobile devices first. Why?
+
+Because it is easy to scale UI Elements for a larger device or to enable a controller.
+But it is harder to convert a PC game to a mobile game if you don't have those suggestions in mind.
+
+#### LoadingScene
+
 -> TODO
+
+#### MenuScene
+
+For your UI make sure to follow this layout principle:
+
+![UX best position](docs/images/ux-best-position.png)
+
+What is this?
+
+Those a areas for a mobile device which the average user can reach:
+
+- Yellow (Hard): Place non interactive elements here like the users lvl etc.
+- Light Green (Okay): Place buttons here which are optional like settings etc.
+- Green (Easy): Place your main buttons here like 'play' or 'shop'.
+
+---
+
+Canvas layers:
+
+![Canvas layers](docs/images/canvas-layers.png)
+
+Try to use different layers with sorting layers or z-index relative to the camera.
+
+In the example we can merge 3d and 2d together to animate the cube.
+
+In a real game you can place the main character or some other 3d models here. 
+The user sees his progress if the character wears new equipment.
+If you don't have a main character, you can show the last bought item etc.
+
+
+---
+
+Dialogs and Popups
+
+-> TODO
+
+### Coding
+

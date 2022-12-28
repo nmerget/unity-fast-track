@@ -15,12 +15,6 @@ namespace Utils.Player
 
         [SerializeField] private Player player;
 
-        private enum PlayerSaveType
-        {
-            MetaData,
-            Money,
-            Quests
-        }
 
         #region Singleton<PlayerManager>
 
@@ -33,6 +27,7 @@ namespace Utils.Player
             LoadPlayer();
             EventHandler.onOnlineAuthSuccess += LoadPlayer;
             EventHandler.onOnlineRegistration += SavePlayerAll;
+            EventHandler.onNewPlayer += CheckForDailyQuests;
         }
 
         protected override bool IsAsync()
@@ -44,11 +39,12 @@ namespace Utils.Player
         {
             EventHandler.onOnlineAuthSuccess -= LoadPlayer;
             EventHandler.onOnlineRegistration -= SavePlayerAll;
+            EventHandler.onNewPlayer -= CheckForDailyQuests;
         }
 
         #endregion
 
-        #region SavePlayer
+        #region Player
 
         private void SavePlayerAll()
         {
@@ -65,9 +61,12 @@ namespace Utils.Player
             player.metaData.UpdateLastSave();
             try
             {
-                if (IsUserOnline()) SavePlayerOnline(saveTypes);
+                if (PlayerOnlineService.IsUserOnline())
+                {
+                    PlayerOnlineService.SavePlayerOnline(saveTypes);
+                }
 
-                SavePlayerLocal();
+                PlayerLocalService.SavePlayerLocal(player);
             }
             catch (Exception e)
             {
@@ -75,47 +74,14 @@ namespace Utils.Player
             }
         }
 
-        private void SavePlayerLocal()
-        {
-            var formatter = new BinaryFormatter();
-            var file = new StreamWriter(Application.persistentDataPath + PlayerStatsSavePath);
-            var ms = new MemoryStream();
-            var json = JsonUtility.ToJson(player);
-            formatter.Serialize(ms, json);
-            var a = Convert.ToBase64String(ms.ToArray());
-            file.WriteLine(a);
-            file.Close();
-        }
-
-        private static void SavePlayerOnline(PlayerSaveType[] saveTypes)
-        {
-            // TODO: Save User Online
-        }
-
-        #endregion
-
-        #region LoadPlayer
-
-        private static Task<Player> LoadPlayerOnline()
-        {
-            var onlinePlayer = new Player();
-            // TODO: Load all data from database
-            return Task.FromResult(onlinePlayer);
-        }
-
-        private static bool IsUserOnline()
-        {
-            // TODO: Handle this
-            return false;
-        }
 
         private async void LoadPlayer()
         {
-            var localPlayer = LoadPlayerLocal();
+            var localPlayer = PlayerLocalService.LoadPlayerLocal();
 
-            if (IsUserOnline())
+            if (PlayerOnlineService.IsUserOnline())
             {
-                var onlinePlayer = await LoadPlayerOnline();
+                var onlinePlayer = await PlayerOnlineService.LoadPlayerOnline();
                 player = IsLocalPlayerNewer(localPlayer, onlinePlayer);
                 SavePlayerAll();
             }
@@ -158,59 +124,9 @@ namespace Utils.Player
             return onlinePlayer;
         }
 
-        private Player LoadPlayerLocal()
-        {
-            Player localPlayer = null;
-            try
-            {
-                if (File.Exists(Application.persistentDataPath + PlayerStatsSavePath))
-                {
-                    var formatter = new BinaryFormatter();
-                    var file = new StreamReader(Application.persistentDataPath + PlayerStatsSavePath);
-                    var a = file.ReadToEnd();
-                    var ms = new MemoryStream(Convert.FromBase64String(a));
-                    var playerJson = formatter.Deserialize(ms) as string;
-                    localPlayer = JsonUtility.FromJson<Player>(playerJson);
-                    file.Close();
-                }
-                else
-                {
-                    EventHandler.onNewPlayer?.Invoke();
-                    localPlayer = CreateNewLocalPlayer();
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.LogError("LoadPlayer failed: " + e);
-            }
-
-            return localPlayer;
-        }
-
         #endregion
 
-        private Player CreateNewLocalPlayer()
-        {
-            player = new Player();
-            CheckForDailyQuests();
-            SavePlayerAll();
-            return player;
-        }
-
-        public void DeleteLocalPlayer()
-        {
-            try
-            {
-                if (File.Exists(Application.persistentDataPath + PlayerStatsSavePath))
-                    File.Delete(Application.persistentDataPath + PlayerStatsSavePath);
-
-                player = null;
-            }
-            catch (Exception e)
-            {
-                Debug.LogError("Player deleting failed: " + e);
-            }
-        }
+        #region Quests
 
         private void CheckForDailyQuests()
         {
@@ -241,6 +157,8 @@ namespace Utils.Player
 
             return difference;
         }
+
+        #endregion
 
         #endregion
 

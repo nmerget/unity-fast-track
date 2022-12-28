@@ -33,9 +33,11 @@ namespace Utils
         public static Action<int> onMoneyChange;
         public static Action<int> onMoneyIncrease;
         public static Action<int> onMoneyDecrease;
+        
         public static Action onDailyQuestChange;
         public static Action onPlayerLogin;
         public static Action onNewPlayer;
+        public static Action onDeletePlayer;
 
         #endregion
 

@@ -138,7 +138,17 @@ But it is harder to convert a PC game to a mobile game if you don't have those s
 
 #### LoadingScene
 
--> TODO
+Try to add a loading screen as your first scene. Why?
+
+Some assets like music can be loaded here. Or async calls to a backend to fetch the user-data.
+
+Users don't like to wait for a loading process during the game. But it is okay to have a loading screen before the game starts.
+
+Keep that in mind. If there is no chance to avoid a loading screen try to make it interactive.
+A minimum would some loading indicator to show the progress. Moreover you can add some hints below this.
+Another approach would be to add a minigame into the loading screen, like pressing a button to make push-ups with your character.
+
+![Loading Scene](docs/images/loading-scene.png)
 
 #### MenuScene
 
@@ -173,7 +183,25 @@ If you don't have a main character, you can show the last bought item etc.
 
 Dialogs and Popups
 
--> TODO
+Try to avoid a button with a "X" to close the dialog, because users clicks on them faster then on a "close" button.
+
+If you show a Dialog ("rate-app" or "watch-ad to continue") the close button should be on the left and the positive button ("buy","rate",...) should be on the right.
+
 
 ### Coding
 
+#### Events
+
+The ``EventHandlerController`` will be generated automatically. You can add it to invoke events from a game object like a button.
+Add the ``EventHandlerController`` to the game object containing the button and map it to the ``OnClick``. 
+Afterwards you can select the function corresponding with the event.
+
+![Event handler button](docs/images/button-event-handler.png)
+
+Create a new empty game object and attach a script to it for example ``GameSceneController``.
+In your controller you can subscribe to events in the ``OnEnable`` function and unsubscribe in ``OnDisable``.
+The functions you add to the ``EventHandler`` can be in the same controller or a service etc.
+
+Try to keep the logic how your game works separate from your UI or interactions.
+
+![Scene controller](docs/images/scene-controller.png)

@@ -2,7 +2,7 @@
 
 namespace Utils
 {
-    public static class EventHandler
+    public static class ActionHandler
     {
         #region UI
 
@@ -28,16 +28,16 @@ namespace Utils
         public static Action onOnlineAuthSuccess;
         public static Action onOnlineRegistration;
 
-        #region PlayerManager
+        #region UserManager
 
         public static Action<int> onMoneyChange;
         public static Action<int> onMoneyIncrease;
         public static Action<int> onMoneyDecrease;
         
         public static Action onDailyQuestChange;
-        public static Action onPlayerLogin;
-        public static Action onNewPlayer;
-        public static Action onDeletePlayer;
+        public static Action onUserLogin;
+        public static Action onNewUser;
+        public static Action onDeleteUser;
 
         #endregion
 

@@ -29,22 +29,22 @@ namespace Scenes.MenuScene
 
         private void OnEnable()
         {
-            EventHandler.onPlayClick += StartPlay;
-            EventHandler.onToggleSettings += ToggleSettings;
-            EventHandler.onToggleItemsContainer += ToggleItems;
+            ActionHandler.onPlayClick += StartPlay;
+            ActionHandler.onToggleSettings += ToggleSettings;
+            ActionHandler.onToggleItemsContainer += ToggleItems;
         }
 
         private void OnDisable()
         {
-            EventHandler.onPlayClick -= StartPlay;
-            EventHandler.onToggleSettings -= ToggleSettings;
-            EventHandler.onToggleItemsContainer -= ToggleItems;
+            ActionHandler.onPlayClick -= StartPlay;
+            ActionHandler.onToggleSettings -= ToggleSettings;
+            ActionHandler.onToggleItemsContainer -= ToggleItems;
         }
 
         private static async void TriggerOnForegroundVisible()
         {
             await new WaitForSeconds(0.5f);
-            EventHandler.onForegroundVisible?.Invoke();
+            ActionHandler.onForegroundVisible?.Invoke();
         }
 
         private static void StartPlay()
@@ -62,7 +62,7 @@ namespace Scenes.MenuScene
 
         private async void ToggleSettings()
         {
-            EventHandler.onToggleDialogContainer?.Invoke();
+            ActionHandler.onToggleDialogContainer?.Invoke();
             if (settingsContainer.IsOpen())
                 await settingsContainer.Toggle(false);
             else

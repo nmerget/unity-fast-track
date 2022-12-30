@@ -16,12 +16,12 @@ namespace Scenes.MenuScene.Animation
 
         private void OnEnable()
         {
-            EventHandler.onForegroundVisible += StartAnimation;
+            ActionHandler.onForegroundVisible += StartAnimation;
         }
 
         private void OnDisable()
         {
-            EventHandler.onForegroundVisible -= StartAnimation;
+            ActionHandler.onForegroundVisible -= StartAnimation;
         }
 
         private void StartAnimation()

@@ -1,15 +1,15 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Utils.Player
+namespace Utils.User
 {
     [Serializable]
-    public class Player
+    public class User
     {
         /**
          * -TIPS- 
          * 
-         * Split your player information, because:
+         * Split your user information, because:
          * 1) it is easier to maintain, e.g. better visibility in unity editor
          * 2) if you save it online in a data base you can reduce amount of send or received data
          * by sending only changed information
@@ -20,16 +20,16 @@ namespace Utils.Player
          * instead you could shorten it
          * {"id": "W_LS_3A"}
          */
-        public PlayerMoney money;
+        public UserMoney money;
 
-        public PlayerMetaData metaData;
-        public PlayerQuest quest;
+        public UserMetaData metaData;
+        public UserQuest quest;
 
-        public Player()
+        public User()
         {
-            money = new PlayerMoney();
-            metaData = new PlayerMetaData();
-            quest = new PlayerQuest();
+            money = new UserMoney();
+            metaData = new UserMetaData();
+            quest = new UserQuest();
         }
 
         public override string ToString()

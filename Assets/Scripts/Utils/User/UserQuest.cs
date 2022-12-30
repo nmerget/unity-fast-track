@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Utils.Player
+namespace Utils.User
 {
     [Serializable]
-    public class PlayerQuest
+    public class UserQuest
     {
         public List<string> dailies;
 
-        public PlayerQuest()
+        public UserQuest()
         {
             dailies = new List<string>();
         }

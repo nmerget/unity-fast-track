@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Utils.Player;
 using Utils.Sound;
+using Utils.User;
 
 namespace Utils.Singleton
 {
@@ -114,7 +114,7 @@ namespace Utils.Singleton
         public DebugManager debugManager;
         public SoundManager soundManager;
 
-        public PlayerManager playerManager;
+        public UserManager userManager;
 
         private static void AddMobileDependencies()
         {
@@ -126,7 +126,7 @@ namespace Utils.Singleton
             {
                 debugManager,
                 soundManager,
-                playerManager
+                userManager
             });
         }
 

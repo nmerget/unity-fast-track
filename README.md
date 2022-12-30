@@ -42,9 +42,9 @@ with ``Debug.Log(DebugManager.instance.debug)``.
 </details>
 
 <details>
-  <summary><strong>EventHandler</strong></summary>
+  <summary><strong>ActionHandler</strong></summary>
 
-You can find the EventHandler under  ``Scripts/Utils/EventHandler.cs``.
+You can find the ActionHandler under  ``Scripts/Utils/ActionHandler.cs``.
 Purpose of this is to bundle all possible events for the game in one file.
 
 Why should I want to do this?
@@ -55,7 +55,7 @@ If you use Unity you come to a point where you add a lot of scripts which should
 also a request to a backend.
 At the end you drag & drop scripts from one game object to another, losing the overview in the hierarchy.
 
-For a clean code just use the ``Scripts/Utils/EventHandlerController.cs`` for buttons/ interactions and invoke an event.
+For a clean code just use the ``Scripts/Utils/ActionHandlerController.cs`` for buttons/ interactions and invoke an event.
 
 In your scene all you have to do is to add a Controller-Script to an empty object and subscribe to the event
 in `` private void OnEnable()``.
@@ -81,7 +81,7 @@ With this you can keep your logic in one place and you don't have to search in y
 Some scripts which should run in the unity editor in the background:
 
 - DependencyCheck: Will look for all required dependencies
-- EventHandlerGenerator: Will generate a controller to trigger events from game objects
+- ActionHandlerGenerator: Will generate a controller to trigger events from game objects
 
 </details>
 
@@ -192,16 +192,16 @@ If you show a Dialog ("rate-app" or "watch-ad to continue") the close button sho
 
 #### Events
 
-The ``EventHandlerController`` will be generated automatically. You can add it to invoke events from a game object like a button.
-Add the ``EventHandlerController`` to the game object containing the button and map it to the ``OnClick``. 
+The ``ActionHandlerController`` will be generated automatically. You can add it to invoke events from a game object like a button.
+Add the ``ActionHandlerController`` to the game object containing the button and map it to the ``OnClick``. 
 Afterwards you can select the function corresponding with the event.
 
-![Event handler button](docs/images/button-event-handler.png)
+![Event handler button](docs/images/action-handler.png)
 
 Create a new empty game object and attach a script to it for example ``GameSceneController``.
 In your controller you can subscribe to events in the ``OnEnable`` function and unsubscribe in ``OnDisable``.
-The functions you add to the ``EventHandler`` can be in the same controller or a service etc.
+The functions you add to the ``ActionHandler`` can be in the same controller or a service etc.
 
 Try to keep the logic how your game works separate from your UI or interactions.
 
-![Scene controller](docs/images/scene-controller.png)
+![Scene controller](docs/images/subscribe-controller.png)

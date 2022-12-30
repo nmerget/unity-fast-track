@@ -1,6 +1,6 @@
-namespace Utils.Player
+namespace Utils.User
 {
-    public enum PlayerSaveType
+    public enum UserSaveType
     {
         MetaData,
         Money,

@@ -1,19 +1,19 @@
 using System.Threading.Tasks;
 
-namespace Utils.Player
+namespace Utils.User
 {
-    public static class PlayerOnlineService
+    public static class UserOnlineService
     {
-        public static void SavePlayerOnline(PlayerSaveType[] saveTypes)
+        public static void SaveUserOnline(UserSaveType[] saveTypes)
         {
             // TODO: Save User Online
         }
 
-        public static Task<Player> LoadPlayerOnline()
+        public static Task<User> LoadUserOnline()
         {
-            var onlinePlayer = new Player();
+            var onlineUser = new User();
             // TODO: Load all data from database
-            return Task.FromResult(onlinePlayer);
+            return Task.FromResult(onlineUser);
         }
 
         public static bool IsUserOnline()

@@ -11,12 +11,12 @@ namespace Shared.Dialog
 
         private void OnEnable()
         {
-            EventHandler.onToggleDialogContainer += ToggleDialog;
+            ActionHandler.onToggleDialogContainer += ToggleDialog;
         }
 
         private void OnDisable()
         {
-            EventHandler.onToggleDialogContainer -= ToggleDialog;
+            ActionHandler.onToggleDialogContainer -= ToggleDialog;
         }
 
         private void ToggleDialog()

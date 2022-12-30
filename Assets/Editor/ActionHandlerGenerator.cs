@@ -6,17 +6,17 @@ using UnityEditor;
 namespace Editor
 {
     [InitializeOnLoad]
-    public class EventHandlerGenerator
+    public class ActionHandlerGenerator
     {
-        static EventHandlerGenerator()
+        static ActionHandlerGenerator()
         {
-            var actions = ReadEventHandler();
-            WriteEventHandlerController(actions);
+            var actions = ReadActionHandler();
+            WriteActionHandlerController(actions);
         }
 
-        private static List<string> ReadEventHandler()
+        private static List<string> ReadActionHandler()
         {
-            const string path = "Assets/Scripts/Utils/EventHandler.cs";
+            const string path = "Assets/Scripts/Utils/ActionHandler.cs";
             var reader = new StreamReader(path);
 
             var actions = new List<string>();
@@ -36,12 +36,22 @@ namespace Editor
             reader.Close();
             return actions;
         }
+        
+        private static readonly List<string> Dependencies = new() { "UnityEngine" };
 
-        private static void WriteEventHandlerController(List<string> actions)
+        private static void WriteActionHandlerController(List<string> actions)
         {
-            const string path = "Assets/Scripts/Utils/EventHandlerController.cs";
-            var content =
-                "/**\n* THIS SCRIPT IS GENERATED! DON'T MODIFY IT. \n*/\n\nusing UnityEngine;\nnamespace Utils\n{\n\npublic class EventHandlerController : MonoBehaviour\n{\n";
+            const string path = "Assets/Scripts/Utils/ActionHandlerController.cs";
+            var content = "/**\n* THIS SCRIPT IS GENERATED! DON'T MODIFY IT. \n*/\n";
+
+            foreach (var dependency in Dependencies)
+            {
+                content += $"\nusing {dependency};";
+            }
+
+            content += "namespace Utils\n{\n\n" +
+                       "public class ActionHandlerController : MonoBehaviour\n{\n";
+
             foreach (var action in actions)
             {
                 var actionOnly = action;
@@ -57,7 +67,7 @@ namespace Editor
 
                 var actionFunctionName = char.ToUpper(actionOnly[0]) + actionOnly.Substring(1);
                 content += $"public void Invoke{actionFunctionName}({param})" + "{\n";
-                content += $"EventHandler.{actionOnly}?.Invoke(";
+                content += $"ActionHandler.{actionOnly}?.Invoke(";
                 if (param != "")
                 {
                     content += "param";

@@ -156,7 +156,7 @@ GameObject:
   - component: {fileID: 2500933590479438252}
   - component: {fileID: 2988729730457813205}
   m_Layer: 0
-  m_Name: PlayerManager
+  m_Name: UserManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -189,7 +189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26864ca2bc4b76143980216819a53682, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player:
+  user:
     money:
       money: 100
       moneyEarned: 0
@@ -197,9 +197,9 @@ MonoBehaviour:
       moneyEarnedToday: 0
       moneySpentToday: 0
     metaData:
-      lastDailyLogin: 133166210926009760
-      lastSave: 133166210926009760
-      created: 133166210926009760
+      lastDailyLogin: 133168805295127345
+      lastSave: 133168805295127345
+      created: 133168805295127345
     quest:
       dailies: []
 --- !u!1 &4842482524684189452
@@ -247,6 +247,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debug: 0
+  logEvents: 0
 --- !u!1 &4928030417663110896
 GameObject:
   m_ObjectHideFlags: 0
@@ -295,6 +296,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debugManager: {fileID: 5619699999320082941}
-  localizationManager: {fileID: 0}
   soundManager: {fileID: 2743280818326176916}
-  playerManager: {fileID: 2988729730457813205}
+  userManager: {fileID: 2988729730457813205}

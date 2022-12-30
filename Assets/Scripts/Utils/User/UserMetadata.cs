@@ -1,15 +1,15 @@
 ﻿using System;
 
-namespace Utils.Player
+namespace Utils.User
 {
     [Serializable]
-    public class PlayerMetaData
+    public class UserMetaData
     {
         public long lastDailyLogin;
         public long lastSave;
         public long created;
 
-        public PlayerMetaData()
+        public UserMetaData()
         {
             var now = DateTime.Now.ToFileTime();
             lastDailyLogin = now;

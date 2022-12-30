@@ -7,12 +7,12 @@ namespace Scenes.MenuScene.Animation
     {
         private void OnEnable()
         {
-            EventHandler.onToggleItemsContainer += ScaleY;
+            ActionHandler.onToggleItemsContainer += ScaleY;
         }
 
         private void OnDisable()
         {
-            EventHandler.onToggleItemsContainer -= ScaleY;
+            ActionHandler.onToggleItemsContainer -= ScaleY;
         }
 
         private void ScaleY()

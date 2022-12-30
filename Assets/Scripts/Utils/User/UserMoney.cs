@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace Utils.Player
+namespace Utils.User
 {
     [Serializable]
-    public class PlayerMoney
+    public class UserMoney
     {
         public int money = 100;
         public int moneyEarned;
